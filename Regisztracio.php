@@ -16,6 +16,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 		$username_err = "A felhasznalonev csak betuket, szamokat tartalmazhat!";
 	}
 	else{
+		$sql = "SELECT id FROM felhasznalo WHERE felhasznalonev = ?";
 		//Select elokeszitese
 		$sql = mysqli_prepare($link, $sql)) {
 		// parameterek bindelese
