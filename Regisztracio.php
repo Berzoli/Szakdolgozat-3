@@ -18,10 +18,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	else{
 		$sql = "SELECT id FROM felhasznalo WHERE felhasznalonev = ?";
 		//Select elokeszitese
-		$sql = mysqli_prepare($link, $sql)) {
-		// parameterek bindelese
-		mysqli_stmt_bind_param($stmt, "s", $param_username);
-
+		if ($stmt = mysqli_prepare($link, $sql)) {
+			// parameterek bindelese
+			mysqli_stmt_bind_param($stmt, "s", $param_username);
+		}
 		//parameterek beallitasa
 		$param_username = trim($_POST["felhasznalonev"]);
 
