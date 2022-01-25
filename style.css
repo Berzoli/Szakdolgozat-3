@@ -1,0 +1,46 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand&display=swap');
+
+* {
+    font-family: 'Quicksand', sans-serif;
+}
+
+body {
+    background-color: steelblue;
+}
+
+.container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    height: 100%;
+    width: 30%;
+    background-image: url("bg.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-position-x: 60%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    overflow: hidden;
+}
+
+.login, .register {
+    width: 70%;
+    padding: 20px;
+    font-size: 30px;
+    margin-top: 2em;
+    position: relative;
+    top: 60%;
+    background-color: white;
+    border: none;
+    cursor: pointer;
+    transition-duration: .3s;
+}
+.login:hover, .register:hover {
+    background-color: lightskyblue;
+}
+
+.container h3 {
+    color: white;
+}
+
