@@ -33,7 +33,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 				} else {
 					$username = trim($_POST["felhasznalonev"]);
 				}
-			} else {
+			 else {
 				echo "Valami elromlott. Probald ujra kesobb.";
 			}
 
