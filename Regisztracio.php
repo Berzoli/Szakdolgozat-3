@@ -1,101 +1,101 @@
-<?php 
-// config fájllal egyutt
+<?php
+// Include config file
 require_once "config.php";
-
-//valtozok definialasa es ures ertekek megadasa hozza
+ 
+// Define variables and initialize with empty values
 $username = $password = $confirm_password = "";
 $username_err = $password_err = $confirm_password_err = "";
-
-//adatok kuldese, ha
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-	
-	//valid felhasznalonev kell
-	if (empty(trim($_POST["felhasznalonev"]))) {
-		$username_err = "Adj meg egy felhasznalonevet!";
-	} elseif (!preg_match('/^[a-zA-Z0-9_]+$/', trim($_POST["felhasznalonev"]))) {
-		$username_err = "A felhasznalonev csak betuket, szamokat tartalmazhat!";
-	}
-	else{
-		$sql = "SELECT id FROM felhasznalo WHERE felhasznalonev = ?";
-		//Select elokeszitese
-		if ($stmt = mysqli_prepare($link, $sql)) {
-			// parameterek bindelese
-			mysqli_stmt_bind_param($stmt, "s", $param_username);
-		}
-		//parameterek beallitasa
-		$param_username = trim($_POST["felhasznalonev"]);
-
-		if (mysqli_stmt_execute($stmt)) {
-				msqli_stmt_store_result($stmt);
-
-				if (mysqli_stmt_num_rows($stmt) == 1) {
-					$username_err = "Ez a felhasznalonev mar foglalt!";
-				} else {
-					$username = trim($_POST["felhasznalonev"]);
-				}
-			 else {
-				echo "Valami elromlott. Probald ujra kesobb.";
-			}
-
-			msqli_stmt_close($stmt);
-		}
-	}
-
-
-	//Jelszo ellenorzese
-
-	if(empty(trim($_POST["jelszo"]))){
-        $password_err = "Please enter a password.";     
-    } elseif(strlen(trim($_POST["jelszo"])) < 6){
-        $password_err = "A jelszonak legalabb 6 karakter hosszunak kell lennie.";
+ 
+// Processing form data when form is submitted
+if($_SERVER["REQUEST_METHOD"] == "POST"){
+ 
+    // Validate username
+    if(empty(trim($_POST["username"]))){
+        $username_err = "Please enter a username.";
+    } elseif(!preg_match('/^[a-zA-Z0-9_]+$/', trim($_POST["username"]))){
+        $username_err = "Username can only contain letters, numbers, and underscores.";
     } else{
-        $password = trim($_POST["jelszo"]);
-    }
-    
-    // Jelszo ujra ellenorzese
-    if(empty(trim($_POST["jelszo_ujra"]))){
-        $confirm_password_err = "Erositsd meg a jelszavad!";     
-    } else{
-        $confirm_password = trim($_POST["jelszo_ujra"]);
-        if(empty($password_err) && ($password != $confirm_password)){
-            $confirm_password_err = "Nem egyezik a jelszo.";
+        // Prepare a select statement
+        $sql = "SELECT id FROM felhasznalo WHERE felhasznalonev = ?";
+        
+        if($stmt = mysqli_prepare($link, $sql)){
+            // Bind variables to the prepared statement as parameters
+            mysqli_stmt_bind_param($stmt, "s", $param_username);
+            
+            // Set parameters
+            $param_username = trim($_POST["username"]);
+            
+            // Attempt to execute the prepared statement
+            if(mysqli_stmt_execute($stmt)){
+                /* store result */
+                mysqli_stmt_store_result($stmt);
+                
+                if(mysqli_stmt_num_rows($stmt) == 1){
+                    $username_err = "This username is already taken.";
+                } else{
+                    $username = trim($_POST["username"]);
+                }
+            } else{
+                echo "Oops! Something went wrong. Please try again later.";
+            }
+
+            // Close statement
+            mysqli_stmt_close($stmt);
         }
     }
     
-    // adatbazisba feltoltes elott lecsekkolja meg van-e minden
+    // Validate password
+    if(empty(trim($_POST["password"]))){
+        $password_err = "Please enter a password.";     
+    } elseif(strlen(trim($_POST["password"])) < 6){
+        $password_err = "Password must have atleast 6 characters.";
+    } else{
+        $password = trim($_POST["password"]);
+    }
+    
+    // Validate confirm password
+    if(empty(trim($_POST["confirm_password"]))){
+        $confirm_password_err = "Please confirm password.";     
+    } else{
+        $confirm_password = trim($_POST["confirm_password"]);
+        if(empty($password_err) && ($password != $confirm_password)){
+            $confirm_password_err = "Password did not match.";
+        }
+    }
+    
+    // Check input errors before inserting in database
     if(empty($username_err) && empty($password_err) && empty($confirm_password_err)){
         
-        // adatok feltoltesenek elokeszitese
+        // Prepare an insert statement
         $sql = "INSERT INTO felhasznalo (felhasznalonev, jelszo) VALUES (?, ?)";
          
         if($stmt = mysqli_prepare($link, $sql)){
-            
+            // Bind variables to the prepared statement as parameters
             mysqli_stmt_bind_param($stmt, "ss", $param_username, $param_password);
             
-            // parameterek beallitasa
+            // Set parameters
             $param_username = $username;
-            $param_password = password_hash($password, PASSWORD_DEFAULT); // jelszo hash-t general
+            $param_password = password_hash($password, PASSWORD_DEFAULT); // Creates a password hash
             
-            // megprobalja feltolteni
+            // Attempt to execute the prepared statement
             if(mysqli_stmt_execute($stmt)){
-                // visszater a login oldalra
+                // Redirect to login page
                 header("location: login.php");
             } else{
                 echo "Oops! Something went wrong. Please try again later.";
             }
 
-            // lezarja az stmt-t
+            // Close statement
             mysqli_stmt_close($stmt);
         }
     }
     
-    // lezarja a kapcsolatot
+    // Close connection
     mysqli_close($link);
 }
-
- ?>
-
- <!DOCTYPE html>
+?>
+ 
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
