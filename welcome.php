@@ -15,7 +15,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 
     <table class="menus">
         <tr>
-            <td>Gyakorló mód</td>
+            <a href="main-moduls.php"></a><td>Gyakorló mód</td>
             <td>Vizsga mód</td>
         </tr>
         <tr>
