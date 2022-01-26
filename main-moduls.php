@@ -15,7 +15,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 
     <table class="main-modul-container">
         <tr>
-            <a href="modul1.php"></a><td>KRESZ jogszabályok</td>
+            <a href="modul1.php"><td>KRESZ jogszabályok</td></a>
             
         </tr>
         <tr>
