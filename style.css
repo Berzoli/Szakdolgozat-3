@@ -70,3 +70,27 @@ td:hover {
     transform: scale(1.1);
 }
 
+.main-modul-container {
+    position: absolute;
+    width: 90%;
+    height: 90%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-spacing: 20px;
+    font-size: 20px;
+}
+
+.question_table {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 95%;
+    height: 70%;
+}
+
+.question_table > tr:hover, td:hover {
+    transform: none;
+}
+
