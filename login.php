@@ -37,14 +37,23 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     // Validate credentials
     if(empty($username_err) && empty($password_err)){
         // Prepare a select statement
-        $sql = "SELECT id, felhasznalonev, jelszo FROM felhasznalo WHERE felhasznalonev = ?";
+        $sql = "SELECT id, felhasznalonev, jelszo FROM felhasznalo WHERE felhasznalonev = ? AND jelszo = ?";
         
         if($stmt = mysqli_prepare($link, $sql)){
+
+            
+
             // Bind variables to the prepared statement as parameters
-            mysqli_stmt_bind_param($stmt, "s", $param_username);
+            mysqli_stmt_bind_param($stmt, "ss", $username, $password);
             
             // Set parameters
             $param_username = $username;
+            $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+
+            echo $username . "<br>";
+            echo $password . "<br>";
+            echo $hashed_password;
+
             
             // Attempt to execute the prepared statement
             if(mysqli_stmt_execute($stmt)){
@@ -54,9 +63,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                 // Check if username exists, if yes then verify password
                 if(mysqli_stmt_num_rows($stmt) == 1){                    
                     // Bind result variables
-                    mysqli_stmt_bind_result($stmt, $id, $username, $password);
+                    mysqli_stmt_bind_result($stmt, $id, $username, $hashed_password);
                     if(mysqli_stmt_fetch($stmt)){
-                        if(false){
+                        if(password_verify($password, $hashed_password)){
                             // Password is correct, so start a new session
                             session_start();
                             
@@ -118,4 +127,4 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             <p>Don't have an account? <a href="register.php">Sign up now</a>.</p>
         </form>
     </div>
-<?php include_once('footer.php'); ?>
+    <?php include_once('footer.php'); ?>

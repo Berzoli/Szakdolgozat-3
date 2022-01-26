@@ -43,4 +43,30 @@ body {
 .container h3 {
     color: white;
 }
+.menus {
+    position: absolute;
+    width: 80%;
+    height: 80%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    border-collapse: separate;
+    border-spacing: 25px;
+}
+
+tr, td {
+    border: 2px solid white;
+}
+
+td {
+    background-color: white;
+    overflow-wrap: break-word;
+    cursor: pointer;
+    transition-duration: .3s;
+}
+
+td:hover {
+    transform: scale(1.1);
+}
 
