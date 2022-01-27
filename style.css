@@ -94,3 +94,8 @@ td:hover {
     transform: none;
 }
 
+#question {
+    font-size: 25px !important;
+    font-weight: bold;
+}
+

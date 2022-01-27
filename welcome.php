@@ -19,7 +19,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
             <td>Vizsga mód</td>
         </tr>
         <tr>
-            <td>Táblák gyakorlása</td>
+            <td><a href="tablak.php">Táblák gyakorlása</a></td>
             <td>Szituációs kérdések</td>
         </tr>
         <tr>
