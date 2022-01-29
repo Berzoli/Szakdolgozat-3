@@ -1,4 +1,4 @@
-<?php include_once('header.php'); ?>
+<?php session_start(); include_once('header.php'); require_once('isloggedin.php'); ?> ?>
 
     <table class="menus">
         <tr>

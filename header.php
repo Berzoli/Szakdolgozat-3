@@ -9,3 +9,7 @@
 </head>
 <body>
     <div class="container">
+    <ul>
+    <li style="display:<?php echo(isset($_SESSION["id"]))?"block":"none" ?>;float:right"><form action="logout.php" method="POST"><a><input type="submit" name="logout" value="Logout" id="logout" style="background:none; color: white; border: none;font-size: 1.1em;"></a></form></li>
+    <li style="display:<?php echo(isset($_SESSION["id"]))?"block":"none" ?>;float:left"><form action="welcome.php" method="POST"><a><input type="submit" name="logout" value="Home" id="logout" style="background:none; color: white; border: none;font-size: 1.1em;"></a></form></li>
+    </ul>
